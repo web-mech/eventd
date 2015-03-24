@@ -15,7 +15,7 @@ function build(type) {
       'traceur-runtime.js',
       'event.js',
       'observe.js',
-      'app.js'
+      'global.js'
     ]))
     .pipe($.sourcemaps.init())
     .pipe(filter)
