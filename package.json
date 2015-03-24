@@ -1,0 +1,32 @@
+{
+  "name": "eventd",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/web-mech/eventd.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/web-mech/eventd/issues"
+  },
+  "homepage": "https://github.com/web-mech/eventd",
+  "dependencies": {
+    "traceur": "0.0.87"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-traceur": "^0.17.0",
+    "gulp-load-plugins": "^0.9.0",
+    "gulp-filter": "^2.0.2",
+    "gulp-order": "^1.1.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-insert": "^0.4.0",
+    "gulp-sourcemaps": "^1.5.1"
+  }
+}
