@@ -6,7 +6,7 @@ gulp.task('traceur:runtime', function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['traceur:runtime'], function() {
+gulp.task('default', function() {
   var runtimePath = $.traceur.RUNTIME_PATH,
     filter = $.filter(['*','!traceur-runtime.js']);
 
@@ -17,14 +17,14 @@ gulp.task('default', ['traceur:runtime'], function() {
       'observe.js',
       'app.js'
     ]))
-    //.pipe($.sourcemaps.init())
+    .pipe($.sourcemaps.init())
     .pipe(filter)
     .pipe($.traceur({
       sourceMap: true,
       modules: 'inline'
     }))
     .pipe(filter.restore())
-    .pipe($.concat('index.js'))
-    //.pipe($.sourcemaps.write('.'))
+    .pipe($.concat('eventd.js'))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('dist'));
 });
