@@ -10,6 +10,7 @@ traceur.require.makeDefault(function(filename) {
 var Observe = require('../lib/observe.js').Observe;
 
 describe('Observe', function() {
+  
   it('Has observable properties', function(done) {
     var mammal = new Observe({
       type: 'elephant'

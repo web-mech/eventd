@@ -27,4 +27,14 @@ describe('Event', function() {
     });
     evt.trigger('foo', 'bar');
   });
+
+  it('Can bind to an event once', function(done) {
+    var evt = new Event();
+    evt.once('foo', function(bar) {
+      expect(bar).to.equal('bar');
+      expect(evt._events['foo'].length).to.equal(0);
+      done();
+    });
+    evt.trigger('foo', 'bar');
+  });
 });
