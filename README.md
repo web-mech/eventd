@@ -1,5 +1,5 @@
 #EVENTD
-
+[![Build Status](https://travis-ci.org/web-mech/eventd.png?branch=master)](https://travis-ci.org/web-mech/eventd)
 ##Usage
 
 ###Event
