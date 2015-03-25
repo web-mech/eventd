@@ -16,7 +16,7 @@ describe('Observe', function() {
   });
 
   it('Can set new observable properties, observe them before they are set.', function(done) {
-    var human = new Observe({});
+    var human = new Observe();
 
     human.once('name', function(name) {
       expect(name).to.equal(human.name);
@@ -34,7 +34,7 @@ describe('Observe', function() {
   });
 
   it('Can set multiple, observable properies at once', function() {
-    var human = new Observe({});
+    var human = new Observe();
 
     human.once('name', function(name) {
       expect(name).to.equal(human.name);
@@ -45,6 +45,7 @@ describe('Observe', function() {
       expect(age).to.equal(human.age);
       expect(age).to.equal(28);
     });
+
     human.once('gender', function(gender) {
       expect(gender).to.equal(human.gender);
       expect(gender).to.equal('m');
@@ -55,5 +56,17 @@ describe('Observe', function() {
       age: 28,
       gender: 'm'
     });
+  });
+
+  it('Fires events only when properties are actually changed', function() {
+    var human = new Observe({
+      name: 'mike'
+    });
+
+    human.on('name', function() {
+      expect(false).to.equal(true);
+    });
+    
+    human.name = 'mike';
   });
 });
