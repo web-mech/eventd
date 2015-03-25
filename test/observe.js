@@ -27,7 +27,14 @@ describe('Observe', function() {
     human.once('name', function(name) {
       expect(name).to.equal(human.name);
       expect(human.name).to.equal('mike');
-      done();
+
+      human.once('name', function(name) {
+        expect(name).to.equal(human.name);
+        expect(human.name).to.equal('price');
+        done();
+      });
+      
+      human.set('name', 'price');
     });
     human.set('name', 'mike');
   });
