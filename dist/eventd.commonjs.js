@@ -3447,6 +3447,7 @@ var Event = function Event() {
       this.off(event, _handle);
       handle.apply(this, [].slice.call(arguments, 0));
     }.bind(this));
+    return _handle;
   },
   off: function(event, handle) {
     event = this._events[event];
@@ -3504,29 +3505,18 @@ var $__event_46_js__;
 var Event = ($__event_46_js__ = require("./event.js"), $__event_46_js__ && $__event_46_js__.__esModule && $__event_46_js__ || {default: $__event_46_js__}).Event;
 var Observe = function Observe(obj) {
   $traceurRuntime.superConstructor($Observe).call(this);
+  var props = Object.keys(obj);
   this._obj = {};
-  var emitter = this;
-  var props = [];
-  for (var i in obj) {
-    props.push(i);
-  }
   var $__5 = true;
   var $__6 = false;
   var $__7 = undefined;
   try {
-    var $__11 = this,
-        $__12 = function() {
-          var p = $__3.value;
-          {
-            Object.defineProperty($__11, p, {set: function(value) {
-                emitter.trigger(p, value, 'set');
-                emitter.trigger('change', p, value, 'set');
-              }});
-          }
-        };
     for (var $__3 = void 0,
         $__2 = (props)[$traceurRuntime.toProperty(Symbol.iterator)](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-      $__12();
+      var attr = $__3.value;
+      {
+        this._define(attr, obj[attr]);
+      }
     }
   } catch ($__8) {
     $__6 = true;
@@ -3546,10 +3536,7 @@ var Observe = function Observe(obj) {
 var $Observe = Observe;
 ($traceurRuntime.createClass)(Observe, {
   on: function(event, handler) {
-    $traceurRuntime.superGet(this, $Observe.prototype, "on").call(this, event, handler);
-  },
-  once: function(event, handler) {
-    $traceurRuntime.superGet(this, $Observe.prototype, "once").call(this, event, handler);
+    return $traceurRuntime.superGet(this, $Observe.prototype, "on").call(this, event, handler);
   },
   trigger: function(event) {
     var $__10;
@@ -3559,30 +3546,50 @@ var $Observe = Observe;
     ($__10 = $traceurRuntime.superGet(this, $Observe.prototype, "trigger")).call.apply($__10, $traceurRuntime.spread([this, event], data));
   },
   unset: function(attr) {
-    if (!this.hasOwnProperty(attr)) {
+    if (!this._obj.hasOwnProperty(attr)) {
       return ;
     }
-    delete this[attr];
-    this.trigger(attr, undefined, 'removed');
-    this.trigger('removed', attr);
+    delete this_.obj[attr];
+    this.trigger('change', attr, undefined, 'removed');
   },
   set: function(attr, value) {
-    if (this.hasOwnProperty(attr)) {
-      this[attr] = value;
-      return ;
+    if (typeof attr === 'string') {
+      return this._setter(attr, value);
     }
-    Object.defineProperty(this, attr, {set: function(prop) {
-        this.trigger(attr, prop, 'set');
-      }.bind(this)});
-    this[attr] = value;
+    if (typeof attr === 'object') {
+      for (var prop in attr) {
+        this._setter(prop, attr[prop]);
+      }
+    }
+  },
+  _define: function(attr, value) {
+    Object.defineProperty(this, attr, {
+      set: function(value) {
+        this._setter(attr, value);
+      }.bind(this),
+      get: function() {
+        return this._obj[attr];
+      }.bind(this)
+    });
+    this._obj[attr] = value;
+  },
+  _setter: function(attr, value) {
+    if (this._obj.hasOwnProperty(attr)) {
+      this._obj[attr] = value;
+    } else {
+      this._define(attr, value);
+    }
+    this.trigger(attr, value, 'set');
+    this.trigger('change', attr, value, 'set');
   }
 }, {}, Event);
 
 "use strict";
-var $__observe_46_js__;
+var $__observe_46_js__,
+    $__event_46_js__;
 var Observe = ($__observe_46_js__ = require("observe.js"), $__observe_46_js__ && $__observe_46_js__.__esModule && $__observe_46_js__ || {default: $__observe_46_js__}).Observe;
-window.Observe = Observe;
-var ob = new Observe({a: '1'});
-window.ob = ob;
+var Event = ($__event_46_js__ = require("event.js"), $__event_46_js__ && $__event_46_js__.__esModule && $__event_46_js__ || {default: $__event_46_js__}).Event;
+window.Observe = window.Observe || Observe;
+window.Event = window.Event || Event;
 
 //# sourceMappingURL=eventd.commonjs.js.map

@@ -3442,6 +3442,7 @@ define([], function() {
         this.off(event, _handle);
         handle.apply(this, [].slice.call(arguments, 0));
       }.bind(this));
+      return _handle;
     },
     off: function(event, handle) {
       event = this._events[event];
@@ -3502,29 +3503,18 @@ define(["./event"], function($__0) {
   var Event = $__0.Event;
   var Observe = function Observe(obj) {
     $traceurRuntime.superConstructor($Observe).call(this);
+    var props = Object.keys(obj);
     this._obj = {};
-    var emitter = this;
-    var props = [];
-    for (var i in obj) {
-      props.push(i);
-    }
     var $__6 = true;
     var $__7 = false;
     var $__8 = undefined;
     try {
-      var $__12 = this,
-          $__13 = function() {
-            var p = $__4.value;
-            {
-              Object.defineProperty($__12, p, {set: function(value) {
-                  emitter.trigger(p, value, 'set');
-                  emitter.trigger('change', p, value, 'set');
-                }});
-            }
-          };
       for (var $__4 = void 0,
           $__3 = (props)[$traceurRuntime.toProperty(Symbol.iterator)](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
-        $__13();
+        var attr = $__4.value;
+        {
+          this._define(attr, obj[attr]);
+        }
       }
     } catch ($__9) {
       $__7 = true;
@@ -3544,10 +3534,7 @@ define(["./event"], function($__0) {
   var $Observe = Observe;
   ($traceurRuntime.createClass)(Observe, {
     on: function(event, handler) {
-      $traceurRuntime.superGet(this, $Observe.prototype, "on").call(this, event, handler);
-    },
-    once: function(event, handler) {
-      $traceurRuntime.superGet(this, $Observe.prototype, "once").call(this, event, handler);
+      return $traceurRuntime.superGet(this, $Observe.prototype, "on").call(this, event, handler);
     },
     trigger: function(event) {
       var $__11;
@@ -3557,22 +3544,41 @@ define(["./event"], function($__0) {
       ($__11 = $traceurRuntime.superGet(this, $Observe.prototype, "trigger")).call.apply($__11, $traceurRuntime.spread([this, event], data));
     },
     unset: function(attr) {
-      if (!this.hasOwnProperty(attr)) {
+      if (!this._obj.hasOwnProperty(attr)) {
         return ;
       }
-      delete this[attr];
-      this.trigger(attr, undefined, 'removed');
-      this.trigger('removed', attr);
+      delete this_.obj[attr];
+      this.trigger('change', attr, undefined, 'removed');
     },
     set: function(attr, value) {
-      if (this.hasOwnProperty(attr)) {
-        this[attr] = value;
-        return ;
+      if (typeof attr === 'string') {
+        return this._setter(attr, value);
       }
-      Object.defineProperty(this, attr, {set: function(prop) {
-          this.trigger(attr, prop, 'set');
-        }.bind(this)});
-      this[attr] = value;
+      if (typeof attr === 'object') {
+        for (var prop in attr) {
+          this._setter(prop, attr[prop]);
+        }
+      }
+    },
+    _define: function(attr, value) {
+      Object.defineProperty(this, attr, {
+        set: function(value) {
+          this._setter(attr, value);
+        }.bind(this),
+        get: function() {
+          return this._obj[attr];
+        }.bind(this)
+      });
+      this._obj[attr] = value;
+    },
+    _setter: function(attr, value) {
+      if (this._obj.hasOwnProperty(attr)) {
+        this._obj[attr] = value;
+      } else {
+        this._define(attr, value);
+      }
+      this.trigger(attr, value, 'set');
+      this.trigger('change', attr, value, 'set');
     }
   }, {}, Event);
   return {
@@ -3583,14 +3589,16 @@ define(["./event"], function($__0) {
   };
 });
 
-define(["observe"], function($__0) {
+define(["observe", "event"], function($__0,$__2) {
   "use strict";
   if (!$__0 || !$__0.__esModule)
     $__0 = {default: $__0};
+  if (!$__2 || !$__2.__esModule)
+    $__2 = {default: $__2};
   var Observe = $__0.Observe;
-  window.Observe = Observe;
-  var ob = new Observe({a: '1'});
-  window.ob = ob;
+  var Event = $__2.Event;
+  window.Observe = window.Observe || Observe;
+  window.Event = window.Event || Event;
   return {};
 });
 
