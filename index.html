@@ -1,7 +1,23 @@
 <html>
 <head>
-  <script src="/dist/eventd.js"></script>
-  
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="./node_modules/mocha/mocha.css" />
 </head>
-<body></body>
+<body>
+  <div id="mocha"></div>
+  <script src="./node_modules/chai/chai.js"></script>
+  <script src="./node_modules/mocha/mocha.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="./dist/eventd.inline.js"></script>
+  <script src="./test/event.js"></script>
+  <script src="./test/observe.js"></script>
+  <script>
+    window.expect = chai.expect;
+    window.should = chai.should();
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    mocha.run();
+  </script>
+</body>
 </html>

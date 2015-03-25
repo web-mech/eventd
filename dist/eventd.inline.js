@@ -3589,7 +3589,7 @@ var $__global_46_js__ = (function() {
   var Observe = ($__observe_46_js__).Observe;
   var Event = ($__event_46_js__).Event;
   window.Observe = window.Observe || Observe;
-  window.Event = window.Event || Event;
+  window.Eventd = Event;
   return {};
 })();
 

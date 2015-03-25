@@ -1,13 +1,3 @@
-var traceur = require('traceur'),
-  expect = require('chai').expect;
-
-traceur.require.makeDefault(function(filename) {
-  // don't transpile our dependencies, just our app
-  return filename.indexOf('node_modules') === -1;
-});
-
-var Observe = require('../lib/observe.js').Observe;
-
 describe('Observe', function() {
   
   it('Has observable properties', function(done) {
