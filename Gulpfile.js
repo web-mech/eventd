@@ -33,9 +33,6 @@ gulp.task('build:inline',function() {
   build('inline');
 });
 
-gulp.task('build:cjs',function() {
-  build('commonjs');
-});
 
 gulp.task('build:amd',function() {
   build('amd');
