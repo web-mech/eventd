@@ -10,7 +10,7 @@ traceur.require.makeDefault(function(filename) {
 var Observe = require('../lib/observe.js').Observe;
 var Event = require('../lib/event.js').Event;
 
-global.Eventd = Event;
+global.Event = Event;
 global.Observe = Observe;
 global.expect = expect;
 global.should = should;

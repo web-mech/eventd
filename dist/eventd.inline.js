@@ -3498,7 +3498,8 @@ var $__observe_46_js__ = (function() {
   "use strict";
   var __moduleName = "observe.js";
   var Event = ($__event_46_js__).Event;
-  var Observe = function Observe(obj) {
+  var Observe = function Observe() {
+    var obj = arguments[0] !== (void 0) ? arguments[0] : {};
     $traceurRuntime.superConstructor($Observe).call(this);
     var props = Object.keys(obj);
     this._obj = {};
@@ -3570,6 +3571,9 @@ var $__observe_46_js__ = (function() {
     },
     _setter: function(attr, value) {
       if (this._obj.hasOwnProperty(attr)) {
+        if (this._obj[attr] === value) {
+          return ;
+        }
         this._obj[attr] = value;
       } else {
         this._define(attr, value);
@@ -3588,8 +3592,10 @@ var $__global_46_js__ = (function() {
   var __moduleName = "global.js";
   var Observe = ($__observe_46_js__).Observe;
   var Event = ($__event_46_js__).Event;
-  window.Observe = window.Observe || Observe;
-  window.Eventd = Event;
+  window.Eventd = window.Eventd || {
+    Event: Event,
+    Observe: Observe
+  };
   return {};
 })();
 

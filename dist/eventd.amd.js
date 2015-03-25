@@ -3496,12 +3496,20 @@ define([], function() {
   };
 });
 
+import {Observe}from "observe.js";
+import {Event} from "event.js";
+
+window.Eventd = window.Eventd || {
+  Event: Event,
+  Observe: Observe
+};
 define(["./event"], function($__0) {
   "use strict";
   if (!$__0 || !$__0.__esModule)
     $__0 = {default: $__0};
   var Event = $__0.Event;
-  var Observe = function Observe(obj) {
+  var Observe = function Observe() {
+    var obj = arguments[0] !== (void 0) ? arguments[0] : {};
     $traceurRuntime.superConstructor($Observe).call(this);
     var props = Object.keys(obj);
     this._obj = {};
@@ -3573,6 +3581,9 @@ define(["./event"], function($__0) {
     },
     _setter: function(attr, value) {
       if (this._obj.hasOwnProperty(attr)) {
+        if (this._obj[attr] === value) {
+          return ;
+        }
         this._obj[attr] = value;
       } else {
         this._define(attr, value);
@@ -3597,9 +3608,16 @@ define(["observe", "event"], function($__0,$__2) {
     $__2 = {default: $__2};
   var Observe = $__0.Observe;
   var Event = $__2.Event;
-  window.Observe = window.Observe || Observe;
-  window.Event = window.Event || Event;
-  return {};
+  var Eventd = {
+    Event: Event,
+    Observe: Observe
+  };
+  return {
+    get Eventd() {
+      return Eventd;
+    },
+    __esModule: true
+  };
 });
 
 //# sourceMappingURL=eventd.amd.js.map
