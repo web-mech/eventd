@@ -76,15 +76,15 @@ obj.foo = 'baz';
  - set - set a new observable attribute to ( delegates can be assigned before the property exists)
  - unset - unbind delegates and remove the attribute from the object
 
+###Testing
 
+Test set up using mocha/chai
+```
+mocha -r spec
+```
 
+or 
 
- ###Testing
- Test set up using mocha/chai
- ```
- mocha -r spec
- ```
- or 
- ```
- npm test
- ```
+```
+npm test
+```
