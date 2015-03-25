@@ -16,7 +16,8 @@ describe('Observe', function() {
       type: 'elephant'
     });
     mammal.on('type', function(type) {
-      expect(type).to.equal('horse');
+      expect(type).to.equal(mammal.type);
+      expect(mammal.type).to.equal('horse');
       done();
     });
     mammal.type = 'horse';
@@ -24,8 +25,9 @@ describe('Observe', function() {
 
   it('Can set new observable properties, observe them before they are set.', function(done) {
     var human = new Observe({});
-    human.on('name', function(name) {
-      expect(name).to.equal('mike');
+    human.once('name', function(name) {
+      expect(name).to.equal(human.name);
+      expect(human.name).to.equal('mike');
       done();
     });
     human.set('name', 'mike');
