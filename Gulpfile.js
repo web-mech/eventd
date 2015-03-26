@@ -31,25 +31,4 @@ gulp.task('build:inline', function() {
   build('inline');
 });
 
-
-gulp.task('build:amd', function() {
-  var runtimePath = $.traceur.RUNTIME_PATH,
-    _order = ['traceur-runtime.js', 'event.js', 'observe.js'];
-
-  var filter = $.filter(['*.js', '!traceur-runtime.js']);
-
-  var pipeline = gulp.src([runtimePath, 'lib/*.js'])
-    .pipe($.order(_order))
-    .pipe($.sourcemaps.init())
-    .pipe(filter)
-    .pipe($.traceur({
-      sourceMap: true,
-      modules: 'amd'
-    }))
-    .pipe(filter.restore())
-    .pipe($.sourcemaps.write('.')).pipe(gulp.dest('dist'));
-
-  return pipeline;
-});
-
 gulp.task('default', ['build:inline']);
