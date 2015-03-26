@@ -1,1 +1,0 @@
-{"version":3,"names":[],"mappings":"","sources":["global.js"],"sourcesContent":["import {Observe} from \"observe.js\";\nimport {Event} from \"event.js\";\n\nwindow.Eventd = window.Eventd || {\n  Event: Event,\n  Observe: Observe\n};"],"file":"global.js","sourceRoot":"/source/"}
