@@ -50,13 +50,13 @@ var Observe = require('eventd').Observe;
 ####Browser
 ```
 //amd
-//eventd.amd.js
+//eventd.js
 require(['eventd'], function(Eventd) {
   var obj = new Eventd.Observe();
   //do observe stuff...
 });
 
-//or just use globally by using eventd.inline.js
+//or just use globally by using eventd.js
 ```
 
 
