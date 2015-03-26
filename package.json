@@ -1,17 +1,24 @@
 {
   "name": "eventd",
   "version": "0.1.0",
-  "description": "",
+  "description": "JS Events and Observes",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec"
   },
+  "keywords": [
+    "evented",
+    "events",
+    "observable",
+    "object",
+    "bind"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/web-mech/eventd.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Michael Price",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/web-mech/eventd/issues"
   },
