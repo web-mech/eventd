@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-    $ = require('gulp-load-plugins')();
+  $ = require('gulp-load-plugins')();
 
 gulp.task('traceur:runtime', function() {
   return gulp.src($.traceur.RUNTIME_PATH)
@@ -8,15 +8,12 @@ gulp.task('traceur:runtime', function() {
 
 function build(type) {
   var runtimePath = $.traceur.RUNTIME_PATH,
-    filter = $.filter(['*','!traceur-runtime.js']);
-  type = type || 'inline';
-  return gulp.src([runtimePath, 'lib/*.js'])
-    .pipe($.order([
-      'traceur-runtime.js',
-      'event.js',
-      'observe.js',
-      'global.js'
-    ]))
+    _order = ['traceur-runtime.js', 'event.js', 'observe.js', 'global.js'];
+
+  var filter = $.filter(['*.js', '!traceur-runtime.js']);
+
+  var pipeline = gulp.src([runtimePath, 'lib/*.js'])
+    .pipe($.order(_order))
     .pipe($.sourcemaps.init())
     .pipe(filter)
     .pipe($.traceur({
@@ -24,18 +21,35 @@ function build(type) {
       modules: type
     }))
     .pipe(filter.restore())
-    .pipe($.concat(['eventd.', type, '.js'].join('')))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest('dist'));
+    .pipe($.concat('eventd.js'))
+    .pipe($.sourcemaps.write('.')).pipe(gulp.dest('dist'));
+
+  return pipeline;
 }
 
-gulp.task('build:inline',function() {
+gulp.task('build:inline', function() {
   build('inline');
 });
 
 
-gulp.task('build:amd',function() {
-  build('amd');
+gulp.task('build:amd', function() {
+  var runtimePath = $.traceur.RUNTIME_PATH,
+    _order = ['traceur-runtime.js', 'event.js', 'observe.js'];
+
+  var filter = $.filter(['*.js', '!traceur-runtime.js']);
+
+  var pipeline = gulp.src([runtimePath, 'lib/*.js'])
+    .pipe($.order(_order))
+    .pipe($.sourcemaps.init())
+    .pipe(filter)
+    .pipe($.traceur({
+      sourceMap: true,
+      modules: 'amd'
+    }))
+    .pipe(filter.restore())
+    .pipe($.sourcemaps.write('.')).pipe(gulp.dest('dist'));
+
+  return pipeline;
 });
 
 gulp.task('default', ['build:inline']);
