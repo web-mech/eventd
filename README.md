@@ -12,17 +12,18 @@ var Event = require('eventd').Event;
 ####Browser
 ```
 //amd
-//eventd.amd.js
-require(['event'], function(Event) {
-  ...
+//eventd.js
+require(['eventd'], function(Eventd) {
+  var evt = new Eventd.Event();
+  //do event stuff...
 });
 
-//or just use globally by using eventd.inline.js
+//or just use globally by using eventd.js
 ```
 
 ####Usage
 ```
-var evt = new Event();
+var evt = new Eventd.Event();
 
 evt.on('change', function() {
   console.log('foo');
@@ -50,8 +51,9 @@ var Observe = require('eventd').Observe;
 ```
 //amd
 //eventd.amd.js
-require(['observe'], function(observe) {
-  ...
+require(['eventd'], function(Eventd) {
+  var obj = new Eventd.Observe();
+  //do observe stuff...
 });
 
 //or just use globally by using eventd.inline.js
@@ -59,14 +61,36 @@ require(['observe'], function(observe) {
 
 
 ####Usage
+Set a property
 ```
 var obj = new Observe({foo: 'bar'});
 
-obj.on('foo', function(foo) {
+obj.once('foo', function(foo) {
   console.log(foo); //baz
 });
 
 obj.foo = 'baz';
+```
+
+Set multiple properties at once
+```
+obj.on('foo', function(foo) {
+  console.log(foo); //foo
+});
+
+obj.on('bar', function(bar) {
+  console.log(bar); //bar
+});
+
+obj.on('baz', function(baz) {
+  console.log(baz); //baz
+});
+
+obj.set({
+  foo: 'foo',
+  bar: 'bar',
+  baz: 'baz'
+});
 ```
 
 ####Methods (inherits Events)
