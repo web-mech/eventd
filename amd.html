@@ -9,7 +9,7 @@
   <script src="./node_modules/chai/chai.js"></script>
   <script src="./node_modules/mocha/mocha.js"></script>
   <script src="./node_modules/requirejs/require.js"></script>
-  <script src="./dist/traceur-runtime.js"></script>
+  <script src="./dist/eventd.js"></script>
   
   <script>mocha.setup('bdd')</script>
   <script src="./test/event.js"></script>
@@ -17,9 +17,9 @@
   <script>
     window.expect = chai.expect;
     window.should = chai.should();
-    require(['./dist/event', './dist/observe'], function(Event, Observe) {
-      window.Event = Event.Event;
-      window.Observe = Observe.Observe;
+    require(['eventd'], function(Eventd) {
+      window.Event = Eventd.Event;
+      window.Observe = Eventd.Observe;
       mocha.checkLeaks();
       mocha.run();
     });
