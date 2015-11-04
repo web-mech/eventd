@@ -22,6 +22,8 @@ require(['eventd'], function(Eventd) {
 ```
 
 ####Usage
+
+Add a specific event and trigger it.
 ```
 var evt = new Eventd.Event();
 
@@ -31,6 +33,12 @@ evt.on('change', function() {
 
 evt.trigger('change', ...data);
 ```
+
+Remove ALL handlers off a specific event from stack.
+```
+evt.off('change');
+```
+
 
 #####Methods
  - on - bind to an event
