@@ -3489,7 +3489,7 @@ var $__event_46_js__ = (function() {
       },
       off: function(event, handle) {
         if (typeof handle === 'undefined') {
-          this._events[event] = [];
+          delete(this._events[event]);
           return;
         }
         event = this._events[event];
