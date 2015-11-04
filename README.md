@@ -34,7 +34,7 @@ evt.on('change', function() {
 evt.trigger('change', ...data);
 ```
 
-Remove ALL handlers off a specific event from stack.
+Remove ALL handlers listening to a specific event from stack.
 ```
 evt.off('change');
 ```
