@@ -7,6 +7,14 @@ describe('Event', function() {
       expect(evt._events['foo'].length).to.equal(1);
   });
 
+  it('Can unbind all events', function() {
+    var evt = new Event();
+    evt.on('foo', function() {});
+    should.exist(evt._events['foo']);
+    evt.off('foo');
+    should.not.exist(evt._events['foo']);
+  });
+
   it('Can trigger bound events', function(done) {
     var evt = new Event();
     evt.on('foo', function(bar) {
